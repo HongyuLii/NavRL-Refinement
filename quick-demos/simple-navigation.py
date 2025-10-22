@@ -5,7 +5,7 @@ from matplotlib import animation
 from utils import get_robot_state, get_ray_cast
 import torch
 import random
-from env import generate_obstacles_grid
+from env import generate_obstacles_grid, sample_free_start, sample_free_goal
 from pid_agent import PIDAgent 
 import json
 import csv
@@ -44,10 +44,15 @@ GRID_DIV = 7
 ROBOT_RADIUS = 0.3
 MAX_FRAMES = 300
 OUTPUT_DIR = "run_metrics"
-os.makedirs(OUTPUT_DIR, exist_ok=True)
+# separate folder for NavRL agent metrics to avoid overwriting other runs
+NavRl_OUTPUT_DIR = os.path.join(OUTPUT_DIR, "NavRL_agent")
+os.makedirs(NavRl_OUTPUT_DIR, exist_ok=True)
 # separate folder for PID agent metrics to avoid overwriting other runs
 PID_OUTPUT_DIR = os.path.join(OUTPUT_DIR, "pid_agent")
 os.makedirs(PID_OUTPUT_DIR, exist_ok=True)
+# separate folder for MPC agent metrics to avoid overwriting other runs
+MPC_OUTPUT_DIR = os.path.join(OUTPUT_DIR, "mpc_agent")
+os.makedirs(MPC_OUTPUT_DIR, exist_ok=True)
 
 
 # === Setup ===
@@ -147,22 +152,6 @@ def _save_metrics(metrics):
 # Batch-run and clearance time-series utilities
 # -----------------------
 
-def sample_free_position(obstacles, half_size=MAP_HALF_SIZE, min_clearance=0.5, max_trials=500):
-    """Sample a random free (x,y) not inside any obstacle, with margin = robot radius + min_clearance."""
-    margin = ROBOT_RADIUS + min_clearance
-    for _ in range(max_trials):
-        x = np.random.uniform(-half_size, half_size)
-        y = np.random.uniform(-half_size, half_size)
-        ok = True
-        for ox, oy, r in obstacles:
-            if np.linalg.norm(np.array([x, y]) - np.array([ox, oy])) <= (r + margin):
-                ok = False
-                break
-        if ok:
-            return np.array([x, y], dtype=float)
-    raise RuntimeError("Failed to sample free position after many trials")
-
-
 def run_episode(start_pos_in, goal_in, save_prefix=None):
     """Run one episode (headless) and return metrics dict + per-step clearance list."""
     # reset state
@@ -186,13 +175,7 @@ def run_episode(start_pos_in, goal_in, save_prefix=None):
         "timeout": False,
         "timestamp": time.strftime("%Y%m%d-%H%M%S")
     }
-
     # reset agent PID internal state if present
-    # if hasattr(agent, "reset_pid"):
-    #     try:
-    #         agent.reset_pid()
-    #     except Exception:
-    #         pass
     if hasattr(pid_agent, "reset_pid"):
         try:
             pid_agent.reset_pid()
@@ -236,7 +219,7 @@ def run_episode(start_pos_in, goal_in, save_prefix=None):
 
         velocity = pid_agent.plan(robot_state, static_obs_input, dyn_obs_input, target_dir_tensor)
         velocity = np.asarray(velocity, dtype=float).reshape(2,)
-
+        print(velocity)
         # update state
         robot_pos = robot_pos + velocity * DT
         robot_vel = velocity.copy()
@@ -278,13 +261,13 @@ def batch_run(num_episodes=30, min_clearance=0.5):
     combined_entries = []
     for i in range(num_episodes):
         # sample start and goal (ensure they are not too close)
-        s = sample_free_position(obstacles, half_size=MAP_HALF_SIZE, min_clearance=min_clearance)
-        g = sample_free_position(obstacles, half_size=MAP_HALF_SIZE, min_clearance=min_clearance)
+        s = sample_free_start(obstacles, goal, obstacle_region_min=OBSTACLE_REGION_MIN, obstacle_region_max=OBSTACLE_REGION_MAX)
+        g = sample_free_goal(obstacles, obstacle_region_min=OBSTACLE_REGION_MIN, obstacle_region_max=OBSTACLE_REGION_MAX)
         # ensure reasonable separation
         if np.linalg.norm(s - g) < 5.0:
             # pick another goal until separation OK (few attempts)
             for _ in range(20):
-                g = sample_free_position(obstacles, half_size=MAP_HALF_SIZE, min_clearance=min_clearance)
+                g = sample_free_goal(obstacles, obstacle_region_min=OBSTACLE_REGION_MIN, obstacle_region_max=OBSTACLE_REGION_MAX)
                 if np.linalg.norm(s - g) >= 5.0:
                     break
         # prefix = f"episode_{i+1:02d}"

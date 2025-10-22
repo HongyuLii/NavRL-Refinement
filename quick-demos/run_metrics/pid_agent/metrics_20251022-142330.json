@@ -1,0 +1,18 @@
+{
+  "start": [
+    0.0,
+    -18.0
+  ],
+  "goal": [
+    5.0,
+    18.0
+  ],
+  "steps": 300,
+  "time_s": 30.0,
+  "path_length": 22.348663898341968,
+  "collisions": 65,
+  "min_dist_to_obstacle": -0.6773492993654042,
+  "reached_goal": false,
+  "timeout": true,
+  "timestamp": "20251022-142330"
+}
