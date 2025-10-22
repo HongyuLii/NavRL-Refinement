@@ -21,8 +21,8 @@ import numpy as np
 import torch
 
 from tensordict.utils import implement_for
-
-from torch.multiprocessing.reductions import ForkingPickler
+from multiprocessing.reduction import ForkingPickler
+#from torch.multiprocessing.reductions import ForkingPickler
 
 
 class MemoryMappedTensor(torch.Tensor):
