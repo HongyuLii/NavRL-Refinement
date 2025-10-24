@@ -1,0 +1,2 @@
+start,goal,steps,time_s,path_length,collisions,min_dist_to_obstacle,reached_goal,timeout,timestamp
+"[0.0, -18.0]","[5.0, 18.0]",300,30.0,16.78566313403104,48,-0.9329203037340719,False,True,20251022-144523

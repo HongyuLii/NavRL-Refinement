@@ -1,0 +1,632 @@
+[
+  {
+    "start": [
+      5.334496103886902,
+      -6.899760804235054
+    ],
+    "goal": [
+      -1.58623864147118,
+      10.392260174133835
+    ],
+    "steps": 300,
+    "time_s": 30.0,
+    "path_length": 9.591363147186625,
+    "collisions": 99,
+    "min_dist_to_obstacle": -0.2877792645548831,
+    "reached_goal": false,
+    "timeout": true,
+    "timestamp": "20251022-153321",
+    "sum_closest_distances": 148.52231686215245,
+    "mean_closest_distance": 0.4950743895405082,
+    "std_closest_distance": 0.37816802094498825
+  },
+  {
+    "start": [
+      -1.251977097806014,
+      4.521445108201462
+    ],
+    "goal": [
+      1.5395356995131557,
+      -5.7706395212246
+    ],
+    "steps": 300,
+    "time_s": 30.0,
+    "path_length": 13.370353205408959,
+    "collisions": 94,
+    "min_dist_to_obstacle": -0.6558606279108985,
+    "reached_goal": false,
+    "timeout": true,
+    "timestamp": "20251022-153322",
+    "sum_closest_distances": 229.9552620736208,
+    "mean_closest_distance": 0.7665175402454031,
+    "std_closest_distance": 0.7492145029611409
+  },
+  {
+    "start": [
+      -7.773379540165126,
+      8.72580465803064
+    ],
+    "goal": [
+      3.2415040644105027,
+      12.393603305167517
+    ],
+    "steps": 300,
+    "time_s": 30.0,
+    "path_length": 12.108318052359715,
+    "collisions": 27,
+    "min_dist_to_obstacle": 0.05189932074323311,
+    "reached_goal": false,
+    "timeout": true,
+    "timestamp": "20251022-153323",
+    "sum_closest_distances": 258.8139100550954,
+    "mean_closest_distance": 0.8627130335169847,
+    "std_closest_distance": 0.4496308972913121
+  },
+  {
+    "start": [
+      7.79346818962539,
+      -13.197153269054759
+    ],
+    "goal": [
+      14.432859421945757,
+      -0.38297255177648637
+    ],
+    "steps": 300,
+    "time_s": 30.0,
+    "path_length": 9.991953738644865,
+    "collisions": 58,
+    "min_dist_to_obstacle": 0.05465000198250625,
+    "reached_goal": false,
+    "timeout": true,
+    "timestamp": "20251022-153323",
+    "sum_closest_distances": 204.9019773795829,
+    "mean_closest_distance": 0.6830065912652759,
+    "std_closest_distance": 0.351139397272476
+  },
+  {
+    "start": [
+      3.0051512566330025,
+      8.69029732289312
+    ],
+    "goal": [
+      -2.7399756466377454,
+      -6.996797679533026
+    ],
+    "steps": 300,
+    "time_s": 30.0,
+    "path_length": 13.606281870144615,
+    "collisions": 51,
+    "min_dist_to_obstacle": -0.8351699922449134,
+    "reached_goal": false,
+    "timeout": true,
+    "timestamp": "20251022-153324",
+    "sum_closest_distances": 379.8432700076631,
+    "mean_closest_distance": 1.2661442333588773,
+    "std_closest_distance": 1.0293153111364242
+  },
+  {
+    "start": [
+      -14.719052652268212,
+      -9.883992554761114
+    ],
+    "goal": [
+      5.716237321689896,
+      -10.453966582497623
+    ],
+    "steps": 300,
+    "time_s": 30.0,
+    "path_length": 12.046526013689776,
+    "collisions": 0,
+    "min_dist_to_obstacle": 1.5358247833562397,
+    "reached_goal": false,
+    "timeout": true,
+    "timestamp": "20251022-153325",
+    "sum_closest_distances": 1648.206513092297,
+    "mean_closest_distance": 5.494021710307655,
+    "std_closest_distance": 2.5742852874159663
+  },
+  {
+    "start": [
+      1.8719872405154732,
+      9.839370817594421
+    ],
+    "goal": [
+      -8.986097402208598,
+      -10.8488955879109
+    ],
+    "steps": 300,
+    "time_s": 30.0,
+    "path_length": 11.528998400806787,
+    "collisions": 88,
+    "min_dist_to_obstacle": -0.2397070094104372,
+    "reached_goal": false,
+    "timeout": true,
+    "timestamp": "20251022-153326",
+    "sum_closest_distances": 229.67753455453078,
+    "mean_closest_distance": 0.7655917818484366,
+    "std_closest_distance": 0.671314923282642
+  },
+  {
+    "start": [
+      -10.278005475060155,
+      -2.170468826775929
+    ],
+    "goal": [
+      -6.242684816530581,
+      3.8542916470768347
+    ],
+    "steps": 300,
+    "time_s": 30.0,
+    "path_length": 13.600784902884469,
+    "collisions": 79,
+    "min_dist_to_obstacle": -0.3036460297466735,
+    "reached_goal": false,
+    "timeout": true,
+    "timestamp": "20251022-153327",
+    "sum_closest_distances": 244.55970604891573,
+    "mean_closest_distance": 0.815199020163052,
+    "std_closest_distance": 0.6609931033836427
+  },
+  {
+    "start": [
+      -13.852792167824466,
+      9.28266270333354
+    ],
+    "goal": [
+      11.519742894991314,
+      -10.632753817189435
+    ],
+    "steps": 300,
+    "time_s": 30.0,
+    "path_length": 11.61817819464094,
+    "collisions": 0,
+    "min_dist_to_obstacle": 1.0732666127208317,
+    "reached_goal": false,
+    "timeout": true,
+    "timestamp": "20251022-153328",
+    "sum_closest_distances": 1452.114374882803,
+    "mean_closest_distance": 4.840381249609344,
+    "std_closest_distance": 2.1040820000716294
+  },
+  {
+    "start": [
+      -2.5692055841705645,
+      -10.381867922866725
+    ],
+    "goal": [
+      -9.623038225558984,
+      -0.8420000381861446
+    ],
+    "steps": 300,
+    "time_s": 30.0,
+    "path_length": 9.50994667540339,
+    "collisions": 162,
+    "min_dist_to_obstacle": -0.2915173741248668,
+    "reached_goal": false,
+    "timeout": true,
+    "timestamp": "20251022-153329",
+    "sum_closest_distances": 127.4443629525096,
+    "mean_closest_distance": 0.42481454317503187,
+    "std_closest_distance": 0.5609437740862231
+  },
+  {
+    "start": [
+      0.9981003407603204,
+      -8.131283099881426
+    ],
+    "goal": [
+      3.4787100970858944,
+      11.02400919100748
+    ],
+    "steps": 300,
+    "time_s": 30.0,
+    "path_length": 10.194307381982066,
+    "collisions": 67,
+    "min_dist_to_obstacle": -0.4131566562614502,
+    "reached_goal": false,
+    "timeout": true,
+    "timestamp": "20251022-153330",
+    "sum_closest_distances": 250.97398195676004,
+    "mean_closest_distance": 0.836579939855867,
+    "std_closest_distance": 0.6135883495589515
+  },
+  {
+    "start": [
+      5.411091072739513,
+      -9.012599952030698
+    ],
+    "goal": [
+      -6.673264981924088,
+      -11.769611301056049
+    ],
+    "steps": 300,
+    "time_s": 30.0,
+    "path_length": 11.228549564783398,
+    "collisions": 35,
+    "min_dist_to_obstacle": -0.031750544652499046,
+    "reached_goal": false,
+    "timeout": true,
+    "timestamp": "20251022-153331",
+    "sum_closest_distances": 252.88206121365596,
+    "mean_closest_distance": 0.8429402040455194,
+    "std_closest_distance": 0.41613966568005223
+  },
+  {
+    "start": [
+      11.051666973402561,
+      -6.995136514830275
+    ],
+    "goal": [
+      1.8837953243770187,
+      14.598697505310163
+    ],
+    "steps": 300,
+    "time_s": 30.0,
+    "path_length": 9.334630218414128,
+    "collisions": 61,
+    "min_dist_to_obstacle": -0.8088794873008884,
+    "reached_goal": false,
+    "timeout": true,
+    "timestamp": "20251022-153332",
+    "sum_closest_distances": 288.917922663804,
+    "mean_closest_distance": 0.9630597422126804,
+    "std_closest_distance": 0.8107521634146911
+  },
+  {
+    "start": [
+      -14.648656987409074,
+      -13.40291204479218
+    ],
+    "goal": [
+      -3.054505192552204,
+      -6.451898875596401
+    ],
+    "steps": 300,
+    "time_s": 30.0,
+    "path_length": 12.89196991606972,
+    "collisions": 29,
+    "min_dist_to_obstacle": 0.13108353172393972,
+    "reached_goal": false,
+    "timeout": true,
+    "timestamp": "20251022-153333",
+    "sum_closest_distances": 640.5980816881657,
+    "mean_closest_distance": 2.1353269389605534,
+    "std_closest_distance": 2.040679952360923
+  },
+  {
+    "start": [
+      -12.604427263120561,
+      11.111620249106064
+    ],
+    "goal": [
+      3.4038966522455105,
+      13.01249454318053
+    ],
+    "steps": 300,
+    "time_s": 30.0,
+    "path_length": 9.932245039990374,
+    "collisions": 0,
+    "min_dist_to_obstacle": 1.2132165789338791,
+    "reached_goal": false,
+    "timeout": true,
+    "timestamp": "20251022-153333",
+    "sum_closest_distances": 648.5105052149665,
+    "mean_closest_distance": 2.161701684049889,
+    "std_closest_distance": 0.5364549440942779
+  },
+  {
+    "start": [
+      10.430343248865523,
+      -14.674310582208108
+    ],
+    "goal": [
+      -7.614037745656911,
+      -6.759952480053045
+    ],
+    "steps": 300,
+    "time_s": 30.0,
+    "path_length": 10.678680711375561,
+    "collisions": 63,
+    "min_dist_to_obstacle": -0.46031152964426614,
+    "reached_goal": false,
+    "timeout": true,
+    "timestamp": "20251022-153334",
+    "sum_closest_distances": 236.64690670171748,
+    "mean_closest_distance": 0.7888230223390577,
+    "std_closest_distance": 0.6523548365723669
+  },
+  {
+    "start": [
+      -13.631451434520466,
+      5.97427609138531
+    ],
+    "goal": [
+      14.824982088178952,
+      -3.025712698510265
+    ],
+    "steps": 300,
+    "time_s": 30.0,
+    "path_length": 11.503242349976023,
+    "collisions": 86,
+    "min_dist_to_obstacle": -0.05158279065543403,
+    "reached_goal": false,
+    "timeout": true,
+    "timestamp": "20251022-153335",
+    "sum_closest_distances": 232.65735207037858,
+    "mean_closest_distance": 0.7755245069012614,
+    "std_closest_distance": 0.5608554875012425
+  },
+  {
+    "start": [
+      -12.713563396403156,
+      10.799576507071045
+    ],
+    "goal": [
+      -2.522703802459324,
+      -5.811641839631456
+    ],
+    "steps": 300,
+    "time_s": 30.0,
+    "path_length": 9.053455296981184,
+    "collisions": 80,
+    "min_dist_to_obstacle": -0.42779093140753865,
+    "reached_goal": false,
+    "timeout": true,
+    "timestamp": "20251022-153336",
+    "sum_closest_distances": 260.664541690408,
+    "mean_closest_distance": 0.8688818056346937,
+    "std_closest_distance": 0.6878820143779509
+  },
+  {
+    "start": [
+      -2.9867153004443168,
+      -7.201824643459272
+    ],
+    "goal": [
+      -8.900393419192365,
+      -11.639795064306078
+    ],
+    "steps": 300,
+    "time_s": 30.0,
+    "path_length": 8.776984954451049,
+    "collisions": 53,
+    "min_dist_to_obstacle": -0.39913088894007864,
+    "reached_goal": false,
+    "timeout": true,
+    "timestamp": "20251022-153337",
+    "sum_closest_distances": 412.77026492611293,
+    "mean_closest_distance": 1.3759008830870434,
+    "std_closest_distance": 1.0704867705479693
+  },
+  {
+    "start": [
+      -11.750399068520897,
+      -6.0816605089857685
+    ],
+    "goal": [
+      3.560054962613549,
+      14.395155629300529
+    ],
+    "steps": 300,
+    "time_s": 30.0,
+    "path_length": 10.499056549734986,
+    "collisions": 0,
+    "min_dist_to_obstacle": 0.4615924425423693,
+    "reached_goal": false,
+    "timeout": true,
+    "timestamp": "20251022-153338",
+    "sum_closest_distances": 870.7910880576659,
+    "mean_closest_distance": 2.9026369601922197,
+    "std_closest_distance": 1.6273925894965746
+  },
+  {
+    "start": [
+      -1.4503369259318077,
+      1.9379413850863791
+    ],
+    "goal": [
+      3.323973690229966,
+      10.578643924115216
+    ],
+    "steps": 300,
+    "time_s": 30.0,
+    "path_length": 9.115239861802564,
+    "collisions": 163,
+    "min_dist_to_obstacle": -0.48720229059694004,
+    "reached_goal": false,
+    "timeout": true,
+    "timestamp": "20251022-153339",
+    "sum_closest_distances": 161.94473248232526,
+    "mean_closest_distance": 0.5398157749410847,
+    "std_closest_distance": 0.8068163932953887
+  },
+  {
+    "start": [
+      -1.9061937391833226,
+      -13.11996531304686
+    ],
+    "goal": [
+      -10.816406319347825,
+      0.20954313515595047
+    ],
+    "steps": 300,
+    "time_s": 30.0,
+    "path_length": 10.727043484799378,
+    "collisions": 35,
+    "min_dist_to_obstacle": -0.058612057932597716,
+    "reached_goal": false,
+    "timeout": true,
+    "timestamp": "20251022-153340",
+    "sum_closest_distances": 367.4238518347634,
+    "mean_closest_distance": 1.224746172782544,
+    "std_closest_distance": 0.5418007504199198
+  },
+  {
+    "start": [
+      -12.43812331628967,
+      -6.231785018826404
+    ],
+    "goal": [
+      -12.9207326117143,
+      6.505607481107624
+    ],
+    "steps": 300,
+    "time_s": 30.0,
+    "path_length": 8.563575093771654,
+    "collisions": 40,
+    "min_dist_to_obstacle": -0.35060337993223756,
+    "reached_goal": false,
+    "timeout": true,
+    "timestamp": "20251022-153341",
+    "sum_closest_distances": 395.54053742083113,
+    "mean_closest_distance": 1.3184684580694377,
+    "std_closest_distance": 0.7074095254630334
+  },
+  {
+    "start": [
+      -2.525242458252553,
+      -11.224283094645132
+    ],
+    "goal": [
+      10.938759752627647,
+      14.211509662814102
+    ],
+    "steps": 300,
+    "time_s": 30.0,
+    "path_length": 8.073596924372877,
+    "collisions": 55,
+    "min_dist_to_obstacle": -0.799983330326511,
+    "reached_goal": false,
+    "timeout": true,
+    "timestamp": "20251022-153342",
+    "sum_closest_distances": 296.9184503653346,
+    "mean_closest_distance": 0.9897281678844483,
+    "std_closest_distance": 0.6931739521483292
+  },
+  {
+    "start": [
+      -7.277059633162496,
+      6.043419597020836
+    ],
+    "goal": [
+      -2.854762182072651,
+      14.467252704387363
+    ],
+    "steps": 300,
+    "time_s": 30.0,
+    "path_length": 10.97291743538847,
+    "collisions": 33,
+    "min_dist_to_obstacle": -0.11978983576552638,
+    "reached_goal": false,
+    "timeout": true,
+    "timestamp": "20251022-153343",
+    "sum_closest_distances": 333.2223396857709,
+    "mean_closest_distance": 1.1107411322859029,
+    "std_closest_distance": 0.5465901693587094
+  },
+  {
+    "start": [
+      -1.7322588298742065,
+      1.8590142734328197
+    ],
+    "goal": [
+      -5.578662374539386,
+      5.926451195512012
+    ],
+    "steps": 300,
+    "time_s": 30.0,
+    "path_length": 9.322580449108344,
+    "collisions": 54,
+    "min_dist_to_obstacle": -0.4199707378995616,
+    "reached_goal": false,
+    "timeout": true,
+    "timestamp": "20251022-153344",
+    "sum_closest_distances": 243.01586523612295,
+    "mean_closest_distance": 0.81005288412041,
+    "std_closest_distance": 0.5837608556666724
+  },
+  {
+    "start": [
+      14.860211069093474,
+      -4.316635021577959
+    ],
+    "goal": [
+      7.106698208425723,
+      -11.73808991238152
+    ],
+    "steps": 300,
+    "time_s": 30.0,
+    "path_length": 12.287442087793547,
+    "collisions": 63,
+    "min_dist_to_obstacle": -0.4941544588251095,
+    "reached_goal": false,
+    "timeout": true,
+    "timestamp": "20251022-153345",
+    "sum_closest_distances": 173.8450701745484,
+    "mean_closest_distance": 0.5794835672484944,
+    "std_closest_distance": 0.4756145159812983
+  },
+  {
+    "start": [
+      -11.652330370092763,
+      -5.296543295065849
+    ],
+    "goal": [
+      4.740390374994195,
+      -7.561521870600657
+    ],
+    "steps": 300,
+    "time_s": 30.0,
+    "path_length": 9.422537618631823,
+    "collisions": 0,
+    "min_dist_to_obstacle": 0.45054831404142814,
+    "reached_goal": false,
+    "timeout": true,
+    "timestamp": "20251022-153346",
+    "sum_closest_distances": 374.60160020860064,
+    "mean_closest_distance": 1.2486720006953345,
+    "std_closest_distance": 0.3878208074217785
+  },
+  {
+    "start": [
+      7.518558199503353,
+      6.077750612878056
+    ],
+    "goal": [
+      5.650436638166678,
+      -1.217351327239717
+    ],
+    "steps": 300,
+    "time_s": 30.0,
+    "path_length": 8.033246805529203,
+    "collisions": 81,
+    "min_dist_to_obstacle": -0.7275444661790391,
+    "reached_goal": false,
+    "timeout": true,
+    "timestamp": "20251022-153346",
+    "sum_closest_distances": 256.18111871018954,
+    "mean_closest_distance": 0.853937062367299,
+    "std_closest_distance": 0.8369755468618377
+  },
+  {
+    "start": [
+      8.373226652580712,
+      -7.673350112237619
+    ],
+    "goal": [
+      -2.2947620449382846,
+      14.560597674493373
+    ],
+    "steps": 300,
+    "time_s": 30.0,
+    "path_length": 12.860238818576935,
+    "collisions": 86,
+    "min_dist_to_obstacle": -0.7662409479530176,
+    "reached_goal": false,
+    "timeout": true,
+    "timestamp": "20251022-153347",
+    "sum_closest_distances": 272.0239238624128,
+    "mean_closest_distance": 0.9067464128747089,
+    "std_closest_distance": 0.8177104944067807
+  }
+]

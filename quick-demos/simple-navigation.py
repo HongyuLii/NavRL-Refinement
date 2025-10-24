@@ -42,7 +42,7 @@ GRID_DIV = 7
 
 # Add robot radius and output settings
 ROBOT_RADIUS = 0.3
-MAX_FRAMES = 300
+MAX_FRAMES = 600
 OUTPUT_DIR = "run_metrics"
 # separate folder for NavRL agent metrics to avoid overwriting other runs
 NavRl_OUTPUT_DIR = os.path.join(OUTPUT_DIR, "NavRL_agent")
@@ -58,7 +58,7 @@ os.makedirs(MPC_OUTPUT_DIR, exist_ok=True)
 # === Setup ===
 obstacles = generate_obstacles_grid(GRID_DIV, OBSTACLE_REGION_MIN, OBSTACLE_REGION_MAX, MIN_RADIUS, MAX_RADIUS)
 robot_vel = np.array([0.0, 0.0])
-goal = np.array([5.0, 18.0])
+goal = np.array([-5.0, 18.0])
 robot_pos = np.array([0.0, -18.0])
 start_pos = robot_pos.copy()
 target_dir = goal - robot_pos 
@@ -81,7 +81,7 @@ _prev_pos = None
 _episode_saved = False
 
 # === NavRL Agent ===
-pid_agent = PIDAgent(device=device, robot_radius=ROBOT_RADIUS, grid_res=0.5)
+pid_agent = PIDAgent(device=device, robot_radius=0.0)
 
 
 # === Visualization setup ===
@@ -217,9 +217,9 @@ def run_episode(start_pos_in, goal_in, save_prefix=None):
         dyn_obs_input = torch.zeros((1, 1, 5, 10), dtype=torch.float, device=device)
         target_dir_tensor = torch.tensor(np.append(target_dir[:2], 0.0), dtype=torch.float, device=device).unsqueeze(0).unsqueeze(0)
 
-        velocity = pid_agent.plan(robot_state, static_obs_input, dyn_obs_input, target_dir_tensor)
+        #velocity = pid_agent.plan(robot_state, static_obs_input, dyn_obs_input, target_dir_tensor)
+        velocity = pid_agent.plan(robot_state, static_obs_input, dyn_obs_input, target_dir_tensor, goal_in)
         velocity = np.asarray(velocity, dtype=float).reshape(2,)
-        print(velocity)
         # update state
         robot_pos = robot_pos + velocity * DT
         robot_vel = velocity.copy()
@@ -370,8 +370,9 @@ def update(frame):
     target_dir_tensor = torch.tensor(np.append(target_dir[:2], 0.0), dtype=torch.float, device=device).unsqueeze(0).unsqueeze(0)
 
     # Output the planned velocity
-    velocity = pid_agent.plan(robot_state, static_obs_input, dyn_obs_input, target_dir_tensor)
-
+    #velocity = pid_agent.plan(robot_state, static_obs_input, dyn_obs_input, target_dir_tensor)
+    
+    velocity = pid_agent.plan(robot_state, static_obs_input, dyn_obs_input, target_dir_tensor, goal)
     # ---Visualizaton update---
     robot_dot.set_data([robot_pos[0]], [robot_pos[1]])
     start_dot.set_data([start_pos[0]], [start_pos[1]])

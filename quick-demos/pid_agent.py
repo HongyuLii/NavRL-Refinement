@@ -12,7 +12,7 @@ class PIDAgent:
 
     def __init__(self,
                  device=None,
-                 planner_type="astar",
+                 planner_type="rrt",
                  controller_type="pid",
                  max_speed=0.8,
                  grid_res=0.5,
@@ -32,14 +32,14 @@ class PIDAgent:
                                         half_size=half_size,
                                         robot_radius=robot_radius,
                                         max_speed=max_speed)
+        elif planner_type == "rrt":
+            self.planner = RRTPlanner(robot_radius=robot_radius, max_speed=max_speed)
         else:
             raise ValueError(f"Unsupported planner type: {planner_type}")
 
         # --- Initialize controller ---
         if controller_type == "pid":
             self.controller = PIDController(kp=kp, ki=ki, kd=kd, max_speed=max_speed)
-        elif planner_type == "rrt":
-            self.controller = RRTPlanner(robot_radius=robot_radius, max_speed=max_speed)
         else:
             raise ValueError(f"Unsupported controller type: {controller_type}")
 
@@ -59,15 +59,19 @@ class PIDAgent:
             self.planner.compute_global_plan(obstacles, start, goal)
 
     # --- Main plan interface ---
-    def plan(self, robot_state, static_obs_input, dyn_obs_input, target_dir_tensor):
+    def plan(self, robot_state, static_obs_input, dyn_obs_input, target_dir_tensor, global_goal):
         """
         1. Use planner to propose a desired velocity.
         2. Use controller to smooth the motion.
         Returns: np.array (2,) -> commanded velocity.
         """
         # Step 1: Planner proposes desired velocity
-        desired_vel = self.planner.local_plan(robot_state, static_obs_input,
-                                              dyn_obs_input, target_dir_tensor)
+        target_dir = self.planner.local_plan(robot_state, static_obs_input,
+                                     dyn_obs_input, target_dir_tensor, global_goal)
+
+        # interpret planner output as a desired direction vector
+        desired_vel = target_dir / (np.linalg.norm(target_dir) + 1e-6) * self.max_speed
+
 
         # Step 2: PID controller smooths it
         cmd_vel = self.controller.compute(desired_vel, self._last_vel, dt=0.1)
