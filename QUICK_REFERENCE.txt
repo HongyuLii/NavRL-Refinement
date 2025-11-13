@@ -1,0 +1,170 @@
+#!/bin/bash
+# QUICK REFERENCE: NavRL ROS2 on GPU VM (Lambda, GCP, AWS)
+
+cat << 'EOF'
+╔════════════════════════════════════════════════════════════════════════════╗
+║        NavRL ROS2 Headless GPU VM Quick Reference                         ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+## WHAT WAS VERIFIED ✅
+
+Your local setup is COMPLETE and READY:
+  ✓ map_manager package builds correctly
+  ✓ navigation_runner package builds correctly  
+  ✓ onboard_detector package builds correctly
+  ✓ All 4 nodes initialize successfully
+  ✓ All launch files are valid
+  ✓ Dependencies are satisfied (empy, lark, PCL, Eigen, etc.)
+
+## WHAT TO DO ON GPU VM
+
+1. INSTALL ROS2 HUMBLE
+   └─ Follow: https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debs.html
+
+2. COPY CODE & BUILD
+   └─ mkdir -p ~/navrl_ws/src
+      cd ~/navrl_ws/src
+      git clone <repo>
+      cd ~/navrl_ws
+      source /opt/ros/humble/setup.bash
+      colcon build --symlink-install
+
+3. IF BUILD FAILS, INSTALL DEPENDENCIES
+   └─ sudo apt-get install libpcl-dev libeigen3-dev ros-humble-cv-bridge ros-humble-vision-msgs
+      python3 -m pip install empy==3.3.4 lark==1.3.1
+
+4. RUN THE STACK (Choose one approach)
+
+   OPTION A: Automated (with logging & bag recording)
+   ──────────────────────────────────────────────────
+   chmod +x run_headless_navrl.sh
+   ./run_headless_navrl.sh --record-bag --isaac-headless
+   
+   OPTION B: Manual (4 terminals - better for debugging)
+   ──────────────────────────────────────────────────
+   # Terminal 1: Bag recording
+   source ~/navrl_ws/install/setup.bash
+   ros2 bag record -o ~/navrl_data -a
+   
+   # Terminal 2: Isaac Simulator
+   conda activate isaaclab
+   cd /path/to/isaac-go2-ros2
+   python isaac-go2-ros2.py
+   
+   # Terminal 3: Perception + Safety
+   source ~/navrl_ws/install/setup.bash
+   ros2 launch navigation_runner perception.launch.py
+   ros2 launch navigation_runner safe_action.launch.py
+   
+   # Terminal 4: Navigation
+   conda activate NavRL
+   source ~/navrl_ws/install/setup.bash
+   ros2 launch navigation_runner navigation.launch.py
+
+## MONITORING REMOTELY (without GUI)
+
+   SSH into GPU VM from your local machine:
+   ─────────────────────────────────────────
+   ssh user@gpu_vm
+   
+   Check system status:
+   ───────────────────
+   ros2 node list
+   ros2 topic list
+   ros2 service list
+   ros2 topic hz /camera/depth/image_raw    # Should be ~30 Hz
+   
+   Monitor logs:
+   ────────────
+   tail -f /tmp/navrl_*/logs/navigation.log
+   
+   Record data:
+   ───────────
+   ros2 bag record -o ~/navrl_recording -a
+
+## EXPECTED OUTPUTS
+
+When running successfully, you should see:
+─────────────────────────────────────────
+
+ROS nodes running:
+  /occupancy_map_node
+  /dynamic_detector_node
+  /navigation_node
+  /safe_action_node
+
+Topics published:
+  /occupancy_map/voxel_map
+  /detected_obstacles
+  /unitree_go2/cmd_vel (from navigation)
+
+Services available:
+  /occupancy_map/raycast
+  /onboard_detector/get_dynamic_obstacles
+  /safe_action/get_safe_action
+
+## TROUBLESHOOTING
+
+Problem: Build fails with "empy" errors
+→ Fix: pip install empy==3.3.4
+
+Problem: Build fails with "lark" not found
+→ Fix: sudo /usr/bin/python3 -m pip install lark --target /opt/ros/humble/local/lib/python3.10/dist-packages --no-deps
+
+Problem: Navigation node says "Service not available"
+→ Fix: Make sure perception.launch.py is running first
+
+Problem: No camera topics being published
+→ Fix: Check Isaac Sim is running in background
+
+## FILES CREATED FOR YOU
+
+  1. ros2_test_deployment.sh
+     └─ Verification script (already run locally ✅)
+  
+  2. run_headless_navrl.sh  
+     └─ Complete launcher for GPU VM (copy to GPU machine)
+  
+  3. HEADLESS_GPU_DEPLOYMENT.md
+     └─ Detailed setup guide (read first on GPU machine)
+  
+  4. ROS2_DEPLOYMENT_VERIFICATION.md
+     └─ Full verification report with troubleshooting
+
+## GPU VM PROVIDERS - GETTING STARTED
+
+Lambda Labs:
+  https://lambdalabs.com/service/gpu-cloud
+  → Click "Launch Instance", choose Ubuntu 22.04 + GPU
+  → SSH in, follow "INSTALL ROS2" section above
+
+Google Cloud (GCP):
+  https://cloud.google.com/compute/docs/machine-types/gpu
+  → Create VM with Ubuntu 22.04 and GPU
+  → SSH in, follow "INSTALL ROS2" section above
+
+AWS:
+  https://docs.aws.amazon.com/DLAMI/latest/UserGuide/launch-config.html
+  → Launch p3 or p4 instance with Ubuntu 22.04
+  → SSH in, follow "INSTALL ROS2" section above
+
+## NETWORK CONSIDERATIONS
+
+For Lambda/GCP/AWS VMs:
+  • No GUI available (Isaac Sim window won't display)
+  • Solution: Use X11 forwarding or VNC (optional, for visualizing Isaac Sim)
+  • Best practice: Use ROS2 bag recording to capture data for offline analysis
+  • Monitoring: SSH in and use ros2 CLI commands
+
+## NEXT STEPS AFTER GPU VM TEST
+
+1. Collect ROS2 bag data from successful runs
+2. Transfer bag to local machine for analysis
+3. Verify navigation performance metrics
+4. Test real robot deployment (if applicable)
+5. Fine-tune parameters based on results
+
+═════════════════════════════════════════════════════════════════════════════
+STATUS: ✅ ROS2 Deployment VERIFIED and READY for GPU Testing
+═════════════════════════════════════════════════════════════════════════════
+EOF
