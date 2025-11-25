@@ -5,9 +5,9 @@
   <arg name="debug" value="false" />
 
   
-  <arg name="world_name" value="$(find uav_simulator)/worlds/generated_env/generated_env_static.world" />
+  <!-- <arg name="world_name" value="$(find uav_simulator)/worlds/generated_env/generated_env_static.world" /> -->
   <!-- <arg name="world_name" value="$(find uav_simulator)/worlds/generated_env/generated_env_dynamic.world" /> -->
-  <!-- <arg name="world_name" value="$(find uav_simulator)/worlds/generated_env/generated_env_initial.world" /> -->
+  <arg name="world_name" value="$(find uav_simulator)/worlds/generated_env/generated_env_initial.world" />
 
   
   <!-- launch the custom world -->

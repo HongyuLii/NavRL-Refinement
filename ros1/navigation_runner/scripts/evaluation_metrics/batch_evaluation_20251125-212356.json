@@ -1,0 +1,872 @@
+[
+  {
+    "run_id": 1,
+    "goal": [
+      -1.576581910651094,
+      4.1861653754010035,
+      1.0
+    ],
+    "start_position": [
+      6.998996359621404,
+      8.979382194988931,
+      0.9999999999999813
+    ],
+    "success": true,
+    "final_bias": 0.948425121092286,
+    "collision_count": 0,
+    "failure_reason": null,
+    "run_time": 16.173999999999978,
+    "final_position": [
+      -0.8614800667687569,
+      4.809173853027913,
+      0.9999999999999813
+    ],
+    "steps": 62,
+    "path_length": 9.453742246941637,
+    "min_dist_to_obstacle": 0.6481185489266597,
+    "sum_closest_distances": 95.04164561663094,
+    "mean_closest_distance": 1.5329297680101763,
+    "std_closest_distance": 0.438562101046401
+  },
+  {
+    "run_id": 2,
+    "goal": [
+      -1.2160968593019277,
+      -9.007401595270064,
+      1.0
+    ],
+    "start_position": [
+      -1.712962526279721,
+      4.03161473531576,
+      0.9999999999999813
+    ],
+    "success": true,
+    "final_bias": 0.8214991661604139,
+    "collision_count": 0,
+    "failure_reason": null,
+    "run_time": 26.870000000000005,
+    "final_position": [
+      -1.8136563752889607,
+      -9.571124492494931,
+      0.9999999999999813
+    ],
+    "steps": 89,
+    "path_length": 16.711995903884443,
+    "min_dist_to_obstacle": 0.0,
+    "sum_closest_distances": 120.5069765568172,
+    "mean_closest_distance": 1.3540109725485077,
+    "std_closest_distance": 0.8264074109025797
+  },
+  {
+    "run_id": 3,
+    "goal": [
+      0.9651601489169348,
+      3.954808629743992,
+      1.0
+    ],
+    "start_position": [
+      -1.2842541264634508,
+      -9.28111111094629,
+      0.9999999999999813
+    ],
+    "success": false,
+    "final_bias": 5.301772191243447,
+    "collision_count": 0,
+    "failure_reason": "stuck",
+    "run_time": 32.55799999999999,
+    "final_position": [
+      5.3456038394544825,
+      6.941529480756374,
+      0.9999999999999813
+    ],
+    "steps": 101,
+    "path_length": 21.475489298098324,
+    "min_dist_to_obstacle": 0.4636458739050784,
+    "sum_closest_distances": 104.88053573471385,
+    "mean_closest_distance": 1.038421145888256,
+    "std_closest_distance": 0.44508887037752565
+  },
+  {
+    "run_id": 4,
+    "goal": [
+      8.873566941259856,
+      0.8974127343387241,
+      1.0
+    ],
+    "start_position": [
+      4.718618943770275,
+      8.504105004872033,
+      0.9999999999999813
+    ],
+    "success": true,
+    "final_bias": 0.9240711308923459,
+    "collision_count": 0,
+    "failure_reason": null,
+    "run_time": 16.437000000000012,
+    "final_position": [
+      8.134592187874558,
+      1.4522314153578453,
+      0.9999999999999813
+    ],
+    "steps": 56,
+    "path_length": 9.910447571348056,
+    "min_dist_to_obstacle": 0.8065387077274373,
+    "sum_closest_distances": 75.92593082781671,
+    "mean_closest_distance": 1.3558201933538696,
+    "std_closest_distance": 0.44459079110931476
+  },
+  {
+    "run_id": 5,
+    "goal": [
+      -5.28212974929495,
+      7.04391381737015,
+      1.0
+    ],
+    "start_position": [
+      9.116471348681694,
+      0.8490778073028918,
+      0.9999999999999813
+    ],
+    "success": false,
+    "final_bias": 3.79120026538592,
+    "collision_count": 0,
+    "failure_reason": "out_of_bounds",
+    "run_time": 21.159999999999968,
+    "final_position": [
+      -2.909088934806856,
+      10.000580309390505,
+      0.9999999999999813
+    ],
+    "steps": 78,
+    "path_length": 16.15834937414452,
+    "min_dist_to_obstacle": 0.0,
+    "sum_closest_distances": 67.65944698086238,
+    "mean_closest_distance": 0.8674288074469537,
+    "std_closest_distance": 0.42611892527613315
+  },
+  {
+    "run_id": 6,
+    "goal": [
+      7.464342877284032,
+      -3.1923836992776327,
+      1.0
+    ],
+    "start_position": [
+      -6.134935910357138,
+      9.651536316233118,
+      0.9999999999999813
+    ],
+    "success": true,
+    "final_bias": 0.9963982271133591,
+    "collision_count": 0,
+    "failure_reason": null,
+    "run_time": 31.35899999999998,
+    "final_position": [
+      6.62344650797991,
+      -3.726895367144472,
+      0.9999999999999813
+    ],
+    "steps": 94,
+    "path_length": 22.4610423876798,
+    "min_dist_to_obstacle": 0.0,
+    "sum_closest_distances": 134.771047514484,
+    "mean_closest_distance": 1.4337345480264254,
+    "std_closest_distance": 0.7226354996741908
+  },
+  {
+    "run_id": 7,
+    "goal": [
+      -8.050142501894815,
+      5.318457052562177,
+      1.0
+    ],
+    "start_position": [
+      8.49697589860815,
+      -4.844196414019103,
+      0.9999999999999813
+    ],
+    "success": true,
+    "final_bias": 0.9787327620442983,
+    "collision_count": 0,
+    "failure_reason": null,
+    "run_time": 27.81899999999996,
+    "final_position": [
+      -7.372756456350648,
+      4.612011042734889,
+      0.9999999999999813
+    ],
+    "steps": 86,
+    "path_length": 20.301826430728156,
+    "min_dist_to_obstacle": 0.032120182932722896,
+    "sum_closest_distances": 105.73678027709441,
+    "mean_closest_distance": 1.2294974450824936,
+    "std_closest_distance": 0.5763327826375213
+  },
+  {
+    "run_id": 8,
+    "goal": [
+      7.095158653044507,
+      8.902272593597708,
+      1.0
+    ],
+    "start_position": [
+      -8.276559796792348,
+      5.2996295417558645,
+      0.9999999999999813
+    ],
+    "success": true,
+    "final_bias": 0.9341672647403748,
+    "collision_count": 0,
+    "failure_reason": null,
+    "run_time": 22.201000000000022,
+    "final_position": [
+      6.271504227516974,
+      8.461521115073332,
+      0.9999999999999813
+    ],
+    "steps": 68,
+    "path_length": 15.376868597163732,
+    "min_dist_to_obstacle": 0.125040134382715,
+    "sum_closest_distances": 78.21648111776965,
+    "mean_closest_distance": 1.1502423693789656,
+    "std_closest_distance": 0.6749916423177467
+  },
+  {
+    "run_id": 9,
+    "goal": [
+      -9.3028910761717,
+      0.03561725082603573,
+      1.0
+    ],
+    "start_position": [
+      7.210830437921454,
+      8.908372307758828,
+      0.9999999999999813
+    ],
+    "success": true,
+    "final_bias": 0.9125212971710353,
+    "collision_count": 0,
+    "failure_reason": null,
+    "run_time": 27.173999999999978,
+    "final_position": [
+      -9.335512787921097,
+      0.9475552650097017,
+      0.9999999999999813
+    ],
+    "steps": 95,
+    "path_length": 19.772461298505384,
+    "min_dist_to_obstacle": 0.1370326980107366,
+    "sum_closest_distances": 141.00316492730562,
+    "mean_closest_distance": 1.4842438413400594,
+    "std_closest_distance": 0.7359930495684056
+  },
+  {
+    "run_id": 10,
+    "goal": [
+      5.155092222068173,
+      -9.10571296217137,
+      1.0
+    ],
+    "start_position": [
+      -9.301056390481737,
+      -0.0640200358529819,
+      0.9999999999999813
+    ],
+    "success": false,
+    "final_bias": 1.7041123530037587,
+    "collision_count": 0,
+    "failure_reason": "out_of_bounds",
+    "run_time": 24.978000000000065,
+    "final_position": [
+      3.7088168868370137,
+      -10.006982381580464,
+      0.9999999999999813
+    ],
+    "steps": 94,
+    "path_length": 17.42956652183148,
+    "min_dist_to_obstacle": 0.48106540970632417,
+    "sum_closest_distances": 98.427940167615,
+    "mean_closest_distance": 1.0471057464639897,
+    "std_closest_distance": 0.43753543859779853
+  },
+  {
+    "run_id": 11,
+    "goal": [
+      -6.074875911341385,
+      -9.129970411735133,
+      1.0
+    ],
+    "start_position": [
+      5.4217205535148105,
+      -9.22243180654026,
+      0.9999999999999813
+    ],
+    "success": true,
+    "final_bias": 0.9686112526315492,
+    "collision_count": 0,
+    "failure_reason": null,
+    "run_time": 18.61200000000008,
+    "final_position": [
+      -5.3063221886015866,
+      -8.540451172025982,
+      0.9999999999999813
+    ],
+    "steps": 62,
+    "path_length": 11.605891166035429,
+    "min_dist_to_obstacle": 0.0,
+    "sum_closest_distances": 46.52547137963801,
+    "mean_closest_distance": 0.7504108287038389,
+    "std_closest_distance": 0.334710112436804
+  },
+  {
+    "run_id": 12,
+    "goal": [
+      -6.570905994786225,
+      4.560944233792691,
+      1.0
+    ],
+    "start_position": [
+      -7.678065924285077,
+      -8.419456629435722,
+      0.9999999999999813
+    ],
+    "success": true,
+    "final_bias": 0.9313829427936018,
+    "collision_count": 0,
+    "failure_reason": null,
+    "run_time": 20.001999999999953,
+    "final_position": [
+      -6.603957014653264,
+      3.630147899349641,
+      0.9999999999999813
+    ],
+    "steps": 66,
+    "path_length": 13.737448990235217,
+    "min_dist_to_obstacle": 0.5118005728527986,
+    "sum_closest_distances": 60.56559858642718,
+    "mean_closest_distance": 0.9176605846428362,
+    "std_closest_distance": 0.31928843296515574
+  },
+  {
+    "run_id": 13,
+    "goal": [
+      5.2763458009025825,
+      -4.986716819336666,
+      1.0
+    ],
+    "start_position": [
+      -6.730198146620952,
+      4.763081869678415,
+      0.9999999999999813
+    ],
+    "success": true,
+    "final_bias": 0.9815798185292142,
+    "collision_count": 0,
+    "failure_reason": null,
+    "run_time": 25.458999999999946,
+    "final_position": [
+      4.676388878453228,
+      -5.763602030515862,
+      0.9999999999999813
+    ],
+    "steps": 76,
+    "path_length": 17.82601663412539,
+    "min_dist_to_obstacle": 0.20978969308688256,
+    "sum_closest_distances": 79.84546691108154,
+    "mean_closest_distance": 1.0505982488300207,
+    "std_closest_distance": 0.40062999893661705
+  },
+  {
+    "run_id": 14,
+    "goal": [
+      0.2649235316811147,
+      5.190135989506638,
+      1.0
+    ],
+    "start_position": [
+      5.302917052454127,
+      -5.172527435126108,
+      0.9999999999999813
+    ],
+    "success": true,
+    "final_bias": 0.9482872552462469,
+    "collision_count": 0,
+    "failure_reason": null,
+    "run_time": 22.99599999999998,
+    "final_position": [
+      1.1897237395365916,
+      5.399881773762073,
+      0.9999999999999813
+    ],
+    "steps": 70,
+    "path_length": 12.910381585536143,
+    "min_dist_to_obstacle": 0.0,
+    "sum_closest_distances": 83.1980986424288,
+    "mean_closest_distance": 1.1885442663204118,
+    "std_closest_distance": 0.47151473061058297
+  },
+  {
+    "run_id": 15,
+    "goal": [
+      6.627536248102995,
+      -6.100977426501029,
+      1.0
+    ],
+    "start_position": [
+      -0.2623101784411126,
+      5.7614632040547145,
+      0.9999999999999813
+    ],
+    "success": false,
+    "final_bias": 3.068205476792999,
+    "collision_count": 0,
+    "failure_reason": "stuck",
+    "run_time": 32.412000000000035,
+    "final_position": [
+      7.389783304149249,
+      -9.072990931411693,
+      0.9999999999999813
+    ],
+    "steps": 101,
+    "path_length": 19.04050916482717,
+    "min_dist_to_obstacle": 0.023825005918306497,
+    "sum_closest_distances": 121.35585448415169,
+    "mean_closest_distance": 1.2015431137044725,
+    "std_closest_distance": 0.40357997294432457
+  },
+  {
+    "run_id": 16,
+    "goal": [
+      -5.257469496082762,
+      0.4401034866128466,
+      1.0
+    ],
+    "start_position": [
+      7.032644658202216,
+      -8.28040202592669,
+      0.9999999999999813
+    ],
+    "success": true,
+    "final_bias": 0.9854772369722141,
+    "collision_count": 0,
+    "failure_reason": null,
+    "run_time": 23.13799999999992,
+    "final_position": [
+      -4.381732260786931,
+      -0.011836420130078795,
+      0.9999999999999813
+    ],
+    "steps": 73,
+    "path_length": 15.882977204327956,
+    "min_dist_to_obstacle": 0.14210924374273248,
+    "sum_closest_distances": 105.57338473284914,
+    "mean_closest_distance": 1.4462107497650565,
+    "std_closest_distance": 0.828829940955197
+  },
+  {
+    "run_id": 17,
+    "goal": [
+      -3.9013649489449156,
+      0.5811483565005879,
+      1.0
+    ],
+    "start_position": [
+      -5.436714187993932,
+      0.45450457129846933,
+      0.9999999999999813
+    ],
+    "success": true,
+    "final_bias": 0.988666311796059,
+    "collision_count": 0,
+    "failure_reason": null,
+    "run_time": 6.975999999999999,
+    "final_position": [
+      -4.81123041871256,
+      0.19435913353163511,
+      0.9999999999999813
+    ],
+    "steps": 24,
+    "path_length": 0.6978388583460737,
+    "min_dist_to_obstacle": 0.8260093767088845,
+    "sum_closest_distances": 21.01592900713799,
+    "mean_closest_distance": 0.8756637086307498,
+    "std_closest_distance": 0.01882950378343048
+  },
+  {
+    "run_id": 18,
+    "goal": [
+      2.8571105930522425,
+      0.10361410096201418,
+      1.0
+    ],
+    "start_position": [
+      -2.770224433979481,
+      0.32198089837002275,
+      0.9999999999999813
+    ],
+    "success": true,
+    "final_bias": 0.8405744160163696,
+    "collision_count": 0,
+    "failure_reason": null,
+    "run_time": 8.864000000000033,
+    "final_position": [
+      2.174905199313386,
+      0.5946957129318301,
+      0.9999999999999813
+    ],
+    "steps": 27,
+    "path_length": 5.210811150971289,
+    "min_dist_to_obstacle": 0.9395846188780683,
+    "sum_closest_distances": 66.92182853643561,
+    "mean_closest_distance": 2.478586242090208,
+    "std_closest_distance": 1.048226905631464
+  },
+  {
+    "run_id": 19,
+    "goal": [
+      -7.646861566760419,
+      4.96374461682227,
+      1.0
+    ],
+    "start_position": [
+      3.1038996430928654,
+      0.09770763107041422,
+      0.9999999999999813
+    ],
+    "success": true,
+    "final_bias": 0.8436853614767335,
+    "collision_count": 0,
+    "failure_reason": null,
+    "run_time": 18.368000000000052,
+    "final_position": [
+      -6.91582907863084,
+      4.542559989290349,
+      0.9999999999999813
+    ],
+    "steps": 55,
+    "path_length": 11.501066798659863,
+    "min_dist_to_obstacle": 0.1990420360544316,
+    "sum_closest_distances": 64.41355458175957,
+    "mean_closest_distance": 1.1711555378501743,
+    "std_closest_distance": 0.6769679437080989
+  },
+  {
+    "run_id": 20,
+    "goal": [
+      1.6744852204682097,
+      7.55656083027894,
+      1.0
+    ],
+    "start_position": [
+      -7.933541096288672,
+      4.933078812411803,
+      0.9999999999999813
+    ],
+    "success": true,
+    "final_bias": 0.9902539503925037,
+    "collision_count": 0,
+    "failure_reason": null,
+    "run_time": 15.936000000000035,
+    "final_position": [
+      0.9554934575602597,
+      6.875639593175501,
+      0.9999999999999813
+    ],
+    "steps": 42,
+    "path_length": 9.704655603988462,
+    "min_dist_to_obstacle": 0.739095312548778,
+    "sum_closest_distances": 47.727237197546835,
+    "mean_closest_distance": 1.1363627904177818,
+    "std_closest_distance": 0.3363134208458046
+  },
+  {
+    "run_id": 21,
+    "goal": [
+      -8.57422726462658,
+      -4.0069164639934804,
+      1.0
+    ],
+    "start_position": [
+      1.7549721949605541,
+      7.655694137681213,
+      0.9999999999999813
+    ],
+    "success": true,
+    "final_bias": 0.8790589585954598,
+    "collision_count": 0,
+    "failure_reason": null,
+    "run_time": 25.745000000000005,
+    "final_position": [
+      -8.238435871653358,
+      -3.1945195209342163,
+      0.9999999999999813
+    ],
+    "steps": 80,
+    "path_length": 16.380563538500063,
+    "min_dist_to_obstacle": 0.22914907400335416,
+    "sum_closest_distances": 104.9395537005008,
+    "mean_closest_distance": 1.3117444212562597,
+    "std_closest_distance": 0.7878239340182865
+  },
+  {
+    "run_id": 22,
+    "goal": [
+      -5.53924979018199,
+      -0.3480598264960477,
+      1.0
+    ],
+    "start_position": [
+      -8.632154220356213,
+      -4.191840242694375,
+      0.9999999999999813
+    ],
+    "success": true,
+    "final_bias": 0.9672979602756515,
+    "collision_count": 0,
+    "failure_reason": null,
+    "run_time": 18.39300000000003,
+    "final_position": [
+      -4.902679871638833,
+      -1.0763757488535055,
+      0.9999999999999813
+    ],
+    "steps": 55,
+    "path_length": 9.642442123484079,
+    "min_dist_to_obstacle": 0.0,
+    "sum_closest_distances": 46.20198581386851,
+    "mean_closest_distance": 0.8400361057067002,
+    "std_closest_distance": 0.6438821175213891
+  },
+  {
+    "run_id": 23,
+    "goal": [
+      0.3286597930851958,
+      8.492289472481467,
+      1.0
+    ],
+    "start_position": [
+      -5.3171611404069745,
+      0.5810108122395284,
+      0.9999999999999813
+    ],
+    "success": true,
+    "final_bias": 0.8812808707353733,
+    "collision_count": 0,
+    "failure_reason": null,
+    "run_time": 16.716000000000008,
+    "final_position": [
+      -0.2954436097768403,
+      7.8700749470482165,
+      0.9999999999999813
+    ],
+    "steps": 43,
+    "path_length": 10.274252957465922,
+    "min_dist_to_obstacle": 0.18831533146006474,
+    "sum_closest_distances": 50.46614740681213,
+    "mean_closest_distance": 1.1736313350421426,
+    "std_closest_distance": 0.5382335534875001
+  },
+  {
+    "run_id": 24,
+    "goal": [
+      8.74032876338245,
+      3.790728949041945,
+      1.0
+    ],
+    "start_position": [
+      0.4199167641014507,
+      8.500561203152829,
+      0.9999999999999813
+    ],
+    "success": true,
+    "final_bias": 0.9184548959939631,
+    "collision_count": 0,
+    "failure_reason": null,
+    "run_time": 26.126999999999953,
+    "final_position": [
+      7.998552296932538,
+      3.2491321711745322,
+      0.9999999999999813
+    ],
+    "steps": 87,
+    "path_length": 17.00213872932476,
+    "min_dist_to_obstacle": 0.31344947247160815,
+    "sum_closest_distances": 75.13545553452758,
+    "mean_closest_distance": 0.863625925684225,
+    "std_closest_distance": 0.34858364232531264
+  },
+  {
+    "run_id": 25,
+    "goal": [
+      7.0323585959170245,
+      1.5632616447786347,
+      1.0
+    ],
+    "start_position": [
+      8.752947994447382,
+      3.723685437689759,
+      0.9999999999999813
+    ],
+    "success": true,
+    "final_bias": 0.9290909850530005,
+    "collision_count": 0,
+    "failure_reason": null,
+    "run_time": 9.398000000000025,
+    "final_position": [
+      6.985497115428634,
+      2.4911700778436603,
+      0.9999999999999813
+    ],
+    "steps": 28,
+    "path_length": 2.3999074619629486,
+    "min_dist_to_obstacle": 1.1011843904899605,
+    "sum_closest_distances": 36.75999036956855,
+    "mean_closest_distance": 1.3128567989131623,
+    "std_closest_distance": 0.13765740418022174
+  },
+  {
+    "run_id": 26,
+    "goal": [
+      -3.6492359001255537,
+      0.3684381068007134,
+      1.0
+    ],
+    "start_position": [
+      5.121360458432623,
+      1.1257956955950994,
+      0.9999999999999813
+    ],
+    "success": true,
+    "final_bias": 0.9698105721107595,
+    "collision_count": 0,
+    "failure_reason": null,
+    "run_time": 16.84299999999996,
+    "final_position": [
+      -2.773507699971917,
+      0.7851306376114664,
+      0.9999999999999813
+    ],
+    "steps": 48,
+    "path_length": 11.424848524888802,
+    "min_dist_to_obstacle": 0.2892430536524723,
+    "sum_closest_distances": 76.73612525976078,
+    "mean_closest_distance": 1.5986692762450163,
+    "std_closest_distance": 1.143873665852171
+  },
+  {
+    "run_id": 27,
+    "goal": [
+      -1.41129320014098,
+      5.977091069396501,
+      1.0
+    ],
+    "start_position": [
+      -3.790436664746092,
+      0.2652205024324208,
+      0.9999999999999813
+    ],
+    "success": true,
+    "final_bias": 0.969192846180585,
+    "collision_count": 0,
+    "failure_reason": null,
+    "run_time": 12.081000000000017,
+    "final_position": [
+      -2.0285183928358257,
+      5.22985092420191,
+      0.9999999999999813
+    ],
+    "steps": 41,
+    "path_length": 5.32737657411209,
+    "min_dist_to_obstacle": 0.36949056401868335,
+    "sum_closest_distances": 49.9001023079374,
+    "mean_closest_distance": 1.2170756660472537,
+    "std_closest_distance": 0.34831791889138075
+  },
+  {
+    "run_id": 28,
+    "goal": [
+      4.351261103493263,
+      1.1635524442251821,
+      1.0
+    ],
+    "start_position": [
+      -1.1997763515906683,
+      5.979188375876381,
+      0.9999999999999813
+    ],
+    "success": true,
+    "final_bias": 0.9103210910912902,
+    "collision_count": 0,
+    "failure_reason": null,
+    "run_time": 16.551999999999907,
+    "final_position": [
+      3.8161086692729853,
+      0.4271447032054746,
+      0.9999999999999813
+    ],
+    "steps": 51,
+    "path_length": 8.713655745717555,
+    "min_dist_to_obstacle": 0.39686163592355483,
+    "sum_closest_distances": 56.83044824550796,
+    "mean_closest_distance": 1.114322514617803,
+    "std_closest_distance": 0.30941337868509244
+  },
+  {
+    "run_id": 29,
+    "goal": [
+      6.911439725831574,
+      -4.086786660675091,
+      1.0
+    ],
+    "start_position": [
+      5.1336045983616385,
+      0.00020464896698705248,
+      0.9999999999999813
+    ],
+    "success": true,
+    "final_bias": 0.8991890130765618,
+    "collision_count": 0,
+    "failure_reason": null,
+    "run_time": 9.423999999999978,
+    "final_position": [
+      6.685832420075305,
+      -3.216360199205198,
+      0.9999999999999813
+    ],
+    "steps": 22,
+    "path_length": 4.735942618412486,
+    "min_dist_to_obstacle": 0.38652703099906316,
+    "sum_closest_distances": 13.692446837873836,
+    "mean_closest_distance": 0.6223839471760836,
+    "std_closest_distance": 0.18509202907085998
+  },
+  {
+    "run_id": 30,
+    "goal": [
+      2.738727185298364,
+      -2.265778696932786,
+      1.0
+    ],
+    "start_position": [
+      7.113357492422934,
+      -4.238260569694011,
+      0.9999999999999813
+    ],
+    "success": true,
+    "final_bias": 0.9461554602394043,
+    "collision_count": 0,
+    "failure_reason": null,
+    "run_time": 12.098999999999933,
+    "final_position": [
+      3.392333319954612,
+      -2.9498906582962445,
+      0.9999999999999813
+    ],
+    "steps": 36,
+    "path_length": 5.07405856602632,
+    "min_dist_to_obstacle": 0.11011477639812428,
+    "sum_closest_distances": 40.86377987062239,
+    "mean_closest_distance": 1.135104996406177,
+    "std_closest_distance": 0.5870707970772562
+  }
+]

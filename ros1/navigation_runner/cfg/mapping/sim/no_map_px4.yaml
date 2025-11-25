@@ -47,4 +47,4 @@ max_height_visualization: 4 # m
 visualize_global_map: false
 verbose: false
 
-prebuilt_map_directory: "No"
+prebuilt_map_directory: ""
