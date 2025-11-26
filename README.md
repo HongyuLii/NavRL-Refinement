@@ -254,7 +254,11 @@ The authors would like to express their sincere gratitude to Professor Kenji Shi
 The Isaac Sim training component of the NavRL framework is built upon [OmniDrones](https://github.com/btx0424/OmniDrones).
 
 
-
+##Additionally setup
+# Connect to VNCViewer:   vncserver :1
+# export DISPLAY=:1
+# then launch
+# Some rizz issue (how to fix?)
 
 
 
