@@ -114,6 +114,8 @@ def main(cfg):
 
         # Evaluate policy and log info
         if i % cfg.eval_interval == 0:
+            torch.cuda.empty_cache()
+
             print("[NavRL]: start evaluating policy at training step: ", i)
             env.enable_render(True)
             env.eval()
@@ -124,6 +126,10 @@ def main(cfg):
                 cfg=cfg,
                 exploration_type=ExplorationType.MEAN,
             )
+
+            torch.cuda.synchronize()
+            torch.cuda.empty_cache()
+
             env.enable_render(not cfg.headless)
             env.train()
             env.reset()

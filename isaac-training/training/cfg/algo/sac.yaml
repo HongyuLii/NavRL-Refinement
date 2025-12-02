@@ -11,7 +11,7 @@ actor:
 
 # Twin Q-value critics
 critic:
-  learning_rate: 3e-4
+  learning_rate: 1e-4
   hidden_sizes: [256, 256]
   tau: 0.005
 
@@ -19,10 +19,13 @@ critic:
 temperature:
   init_alpha: 0.2
   target_entropy_scale: 1.0
+  learning_rate: 1e-4
 
 # Training schedule
 training_frame_num: 32 # frames per collector batch
-batch_size: 1024
-replay_capacity: 1000000
-warmup_steps: 10000 # collect before learning starts
-updates_per_step: 1 # gradient steps per env frame
+batch_size: 512
+replay_capacity: 200000
+warmup_steps: 160000 # collect before learning starts
+updates_per_step: 0.25 # gradient steps per env frame
+policy_update_freq: 2
+vf_update_freq: 2

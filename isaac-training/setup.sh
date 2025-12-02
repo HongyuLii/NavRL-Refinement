@@ -42,7 +42,7 @@ sudo apt update && sudo apt install -y cmake build-essential
 # Install Orbit dependencies
 echo "Installing Orbit dependencies..."
 ./orbit.sh --install
-# ./orbit.sh --extra
+./orbit.sh --extra sb3
 
 
 # Step 3: Navigate to OmniDrones directory
@@ -82,4 +82,3 @@ python setup.py develop
 python -c "import torch; print(torch.__path__)"
 
 echo "Setup completed successfully!"
-
