@@ -1,0 +1,24 @@
+name: "sac"
+
+feature_extractor:
+  learning_rate: 5e-4
+  dyn_obs_num: 5
+
+actor:
+  learning_rate: 3e-4
+  action_limit: 2.0 # m/s
+
+critic:
+  learning_rate: 3e-4
+  tau: 0.005
+
+temperature:
+  init_alpha: 0.2
+
+# Training schedule
+training_frame_num: 32 # frames per collector batch (used in train.py)
+batch_size: 512
+replay_capacity: 200000
+warmup_steps: 10000
+updates_per_step: 0.5
+policy_update_freq: 1
