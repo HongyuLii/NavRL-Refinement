@@ -179,7 +179,7 @@ def evaluate(
     env.eval()
     env.set_seed(seed)
 
-    render_callback = RenderCallback(interval=2)
+    render_callback = RenderCallback(interval=4)
 
     with set_exploration_type(exploration_type):
         trajs = env.rollout(
@@ -204,15 +204,20 @@ def evaluate(
         return torch.take_along_dim(tensor, indices, dim=1).reshape(-1)
 
     traj_stats = {k: take_first_episode(v) for k, v in trajs[("next", "stats")].cpu().items()}
+    del first_done
 
     info = {"eval/stats." + k: torch.mean(v.float()).item() for k, v in traj_stats.items()}
+    del trajs
 
     # log video
+    video_array = render_callback.get_video_array(axes="t c h w")
     info["recording"] = wandb.Video(
-        render_callback.get_video_array(axes="t c h w"),
+        video_array,
         fps=0.5 / (cfg.sim.dt * cfg.sim.substeps),
         format="mp4",
     )
+    del video_array
+
     env.train()
     # env.reset()
 

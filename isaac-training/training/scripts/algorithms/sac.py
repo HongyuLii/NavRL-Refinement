@@ -58,6 +58,13 @@ class ReplayBuffer:
         next_dyn: torch.Tensor,
         done: torch.Tensor,
     ) -> None:
+        """
+        Inserts a batch of collected transitions into the replay buffer at the correct positions
+        - Slices the correct buffer indices (`idxs`)
+        - Writes lidar, state, dyn, action, reward, next_obs, done
+        - Advances the write pointer (ring buffer)
+        """
+        # n = batch size of transitions stored: lidar.shape -> [B, 1, H, W]
         n = lidar.shape[0]
         if n == 0:
             return
@@ -75,12 +82,13 @@ class ReplayBuffer:
         self.buffer["done"][idxs] = done
 
         self.ptr = int((self.ptr + n) % self.size)
-        self.current_size = int(min(self.current_size + n, self.size))
+        self.current_size = min(self.current_size + n, self.size)
 
     def sample_batch(self) -> Dict[str, torch.Tensor]:
-        if self.current_size < self.batch_size:
-            raise ValueError("Not enough samples in ReplayBuffer.")
+        # samples `batch_size` random indices where each idx is between 0 and `current_size` - 1
         idxs = torch.randint(0, self.current_size, (self.batch_size,), device=self.device)
+
+        # gather the sampled transitions
         return {key: self.buffer[key][idxs] for key in self.buffer}
 
     def __len__(self) -> int:
@@ -88,6 +96,11 @@ class ReplayBuffer:
 
 
 def init_layer_ortho(layer: nn.Linear, gain: float = 1.0) -> nn.Linear:
+    """
+    - Initializes weight matrix so all rows are orthogonal
+    - Preserves norm of the input (keeps activations stable)
+    - Helps gradients flow more smoothly early in training
+    """
     nn.init.orthogonal_(layer.weight, gain=gain)
     nn.init.zeros_(layer.bias)
     return layer
@@ -100,7 +113,7 @@ class Actor(nn.Module):
         self,
         in_dim: int,
         out_dim: int,
-        log_std_min: float = -20.0,
+        log_std_min: float = -5.0,
         log_std_max: float = 2.0,
     ):
         super().__init__()
@@ -118,22 +131,30 @@ class Actor(nn.Module):
             action: [B, A] in [-1, 1]
             log_prob: [B, 1] (None if deterministic=True)
         """
+        # `feat` is feature vector from feature extractor.
+        # Replay buffer stores raw lidar/state; feature extractor converts them into vector used by actor
         x = F.relu(self.fc1(feat))
         x = F.relu(self.fc2(x))
 
+        # mu computes desired action direction before sampling, squashed to [-1, 1] from tanh
         mu = self.mu_layer(x).tanh()
+
+        # predicts log std of Gaussian policy. After squash and rescale, clamped to [log_std_min, log_std_max]
+        # Controls how much randomness the policy uses when sampling actions
         log_std = self.log_std_layer(x).tanh()
         log_std = self.log_std_min + 0.5 * (self.log_std_max - self.log_std_min) * (log_std + 1.0)
         std = torch.exp(log_std)
 
+        # For evaluation / deterministic rollouts
         if deterministic:
-            # For evaluation / deterministic rollouts
             return mu, None
 
+        # Distribution is policy pi(a | s). Represents dist over all possible actions
         dist = torch.distributions.Normal(mu, std)
         z = dist.rsample()
         action = torch.tanh(z)
-        # log pi(a) for tanh-Gaussian
+
+        # log prob tells how likely sampled action was; needed for entropy-regularized actor update
         log_prob = dist.log_prob(z) - torch.log(1.0 - action.pow(2) + 1e-7)
         log_prob = log_prob.sum(-1, keepdim=True)
         return action, log_prob
@@ -144,6 +165,9 @@ class CriticQ(nn.Module):
 
     def __init__(self, feat_dim: int, action_dim: int):
         super().__init__()
+
+        # need state features and action values to estimate value of taking action in that state
+        # Q-network must approximate Q(s, a)
         self.fc1 = nn.Linear(feat_dim + action_dim, 256)
         self.fc2 = nn.Linear(256, 256)
         self.out = init_layer_ortho(nn.Linear(256, 1))
@@ -167,9 +191,7 @@ class SAC(TensorDictModuleBase):
         self.tau = float(self.cfg.critic.tau)
         self.alpha = float(self.cfg.temperature.init_alpha)
 
-        # ------------------------------------------------------------------
-        # Shared feature extractor (mirrors PPO)
-        # ------------------------------------------------------------------
+        # Shared feature extractor
         feature_extractor_network = nn.Sequential(
             nn.LazyConv2d(out_channels=4, kernel_size=(5, 3), padding=(2, 1)),
             nn.ELU(),
@@ -231,9 +253,16 @@ class SAC(TensorDictModuleBase):
 
         # Networks
         self.actor = Actor(feat_dim, self.action_dim).to(self.device)
-        self.q = CriticQ(feat_dim, self.action_dim).to(self.device)
-        self.q_target = CriticQ(feat_dim, self.action_dim).to(self.device)
-        self.q_target.load_state_dict(self.q.state_dict())
+
+        # Twin critics
+        self.q1 = CriticQ(feat_dim, self.action_dim).to(self.device)
+        self.q2 = CriticQ(feat_dim, self.action_dim).to(self.device)
+        self.q1_target = CriticQ(feat_dim, self.action_dim).to(self.device)
+        self.q2_target = CriticQ(feat_dim, self.action_dim).to(self.device)
+
+        # Initialize targets
+        self.q1_target.load_state_dict(self.q1.state_dict())
+        self.q2_target.load_state_dict(self.q2.state_dict())
 
         # Replay buffer
         capacity = int(self.cfg.replay_capacity)
@@ -250,26 +279,22 @@ class SAC(TensorDictModuleBase):
 
         # Optimizers
         self.actor_optimizer = torch.optim.Adam(
-            self.actor.parameters(),
+            list(self.actor.parameters()) + list(self.feature_extractor.parameters()),
             lr=float(self.cfg.actor.learning_rate),
         )
 
         encoder_params = list(self.feature_extractor.parameters())
         self.q_optimizer = torch.optim.Adam(
-            list(self.q.parameters()) + encoder_params,
+            list(self.q1.parameters()) + list(self.q2.parameters()) + encoder_params,
             lr=float(self.cfg.critic.learning_rate),
         )
 
         self.total_steps = 0
         self.total_updates = 0
 
-    # ------------------------------------------------------------------
     # Policy interface used by TorchRL collector
-    # ------------------------------------------------------------------
     def __call__(self, tensordict: TensorDict) -> TensorDict:
         tensordict = tensordict.to(self.device)
-
-        # Extract features
         self.feature_extractor(tensordict)
         feat = tensordict["_feature"]
 
@@ -280,17 +305,13 @@ class SAC(TensorDictModuleBase):
             action_norm, _ = self.actor(feat, deterministic=deterministic)
 
         tensordict.set(("agents", "action_normalized"), action_norm)
-
-        # Scale and map to world frame
         scaled = action_norm * self.action_limit
         direction = tensordict.get(("agents", "observation", "direction"))
         actions_world = vec_to_world(scaled, direction)
         tensordict.set(("agents", "action"), actions_world)
         return tensordict
 
-    # ------------------------------------------------------------------
     # Training step called from train.py
-    # ------------------------------------------------------------------
     def train(self, tensordict: TensorDict) -> Dict[str, float]:
         """
         Called once per collector batch.
@@ -373,9 +394,7 @@ class SAC(TensorDictModuleBase):
         )
         return stats
 
-    # ------------------------------------------------------------------
     # One SAC gradient step
-    # ------------------------------------------------------------------
     def _update_once(self):
         samples = self.memory.sample_batch()
 
@@ -418,38 +437,51 @@ class SAC(TensorDictModuleBase):
         self.feature_extractor(next_td)
         next_feat = next_td["_feature"]  # [B, F]
 
-        # ------------------------------------------------------------------
         # Critic / Q update
-        # ------------------------------------------------------------------
         with torch.no_grad():
+            # Next actions from current policy
             next_action, next_log_prob = self.actor(next_feat, deterministic=False)
-            q_next = self.q_target(next_feat, next_action)
+
+            # Target Q = min(q1_target, q2_target)
+            q1_next = self.q1_target(next_feat, next_action)
+            q2_next = self.q2_target(next_feat, next_action)
+            q_next = torch.min(q1_next, q2_next)
+
             target_q = reward + self.gamma * (1.0 - done) * (q_next - self.alpha * next_log_prob)
 
-        q_pred = self.q(feat, action)
-        critic_loss = F.mse_loss(q_pred, target_q)
+        # Current Q estimates
+        q1_pred = self.q1(feat, action)
+        q2_pred = self.q2(feat, action)
+
+        # Critic loss: average of both MSEs
+        critic_loss_1 = F.mse_loss(q1_pred, target_q)
+        critic_loss_2 = F.mse_loss(q2_pred, target_q)
+        critic_loss = 0.5 * (critic_loss_1 + critic_loss_2)
 
         self.q_optimizer.zero_grad(set_to_none=True)
         critic_loss.backward()
         self.q_optimizer.step()
 
-        # ------------------------------------------------------------------
         # Actor update
-        # ------------------------------------------------------------------
         feat_actor = feat.detach()
         new_action, log_prob = self.actor(feat_actor, deterministic=False)
-        q_new = self.q(feat_actor, new_action)
-        actor_loss = (self.alpha * log_prob - q_new).mean()
 
+        q1_new = self.q1(feat_actor, new_action)
+        q2_new = self.q2(feat_actor, new_action)
+        q_new = torch.min(q1_new, q2_new)
+
+        actor_loss = (self.alpha * log_prob - q_new).mean()
         self.actor_optimizer.zero_grad(set_to_none=True)
         actor_loss.backward()
         self.actor_optimizer.step()
 
-        # ------------------------------------------------------------------
         # Target Q update (Polyak averaging)
-        # ------------------------------------------------------------------
         with torch.no_grad():
-            for p, p_targ in zip(self.q.parameters(), self.q_target.parameters()):
+            for p, p_targ in zip(self.q1.parameters(), self.q1_target.parameters()):
+                p_targ.data.mul_(1.0 - self.tau)
+                p_targ.data.add_(self.tau * p.data)
+
+            for p, p_targ in zip(self.q2.parameters(), self.q2_target.parameters()):
                 p_targ.data.mul_(1.0 - self.tau)
                 p_targ.data.add_(self.tau * p.data)
 

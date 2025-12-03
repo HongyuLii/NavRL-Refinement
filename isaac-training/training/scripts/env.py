@@ -64,6 +64,7 @@ class NavigationEnv(IsaacEnv):
         self.lidar = RayCaster(ray_caster_cfg)
         self.lidar._initialize_impl()
         self.lidar_resolution = (self.lidar_hbeams, self.lidar_vbeams)
+        self.prev_distance = torch.zeros(self.num_envs, 1, 1, device=self.device)
 
         # start and target
         with torch.device(self.device):
@@ -758,30 +759,48 @@ class NavigationEnv(IsaacEnv):
         )  # 0.3 collision radius
         collision = static_collision | dynamic_collision
 
+        # Goal bonus
+        reach_goal = distance.squeeze(-1) < 0.5
+
+        reward_vel *= 2.0
+        reward_safety_static *= 1.0
+        reward_safety_dynamic *= 1.0
+        penalty_smooth *= -0.1
+        penalty_height *= -10.0
+        # distance_penalty = distance.squeeze(-1)
+        goal_bonus = reach_goal.float() * 10.0
+
+        current_distance = distance
+        # progress_reward = (self.prev_distance - current_distance).squeeze(-1) * 2.0
+        self.prev_distance = current_distance.detach().clone()
+
         # Final reward calculation
         if self.cfg.env_dyn.num_obstacles != 0:
             self.reward = (
                 reward_vel
-                + 1.0
-                + reward_safety_static * 1.0
-                + reward_safety_dynamic * 1.0
-                - penalty_smooth * 0.1
-                - penalty_height * 8.0
+                + reward_safety_static
+                + reward_safety_dynamic
+                + penalty_smooth
+                + penalty_height
+                + goal_bonus
             )
+            # print(f"\nreward_vel: {reward_vel.mean():.6f}")
+            # print(f"reward_safety_static: {reward_safety_static.mean():.6f}")
+            # print(f"reward_safety_dynamic: {reward_safety_dynamic.mean():.6f}")
+            # print(f"penalty_smooth: {penalty_smooth.mean():.6f}")
+            # print(f"penalty_height: {penalty_height.mean():.6f}")
+            # print(f"progress_reward: {progress_reward.mean():.6f}")
+            # print(f"distance_penalty: {distance_penalty.mean():.6f}")
+            # print(f"goal_bonus: {goal_bonus.mean():.6f}\n")
         else:
             self.reward = (
-                reward_vel
-                + 1.0
-                + reward_safety_static * 1.0
-                - penalty_smooth * 0.1
-                - penalty_height * 8.0
+                reward_vel + reward_safety_static - penalty_smooth - penalty_height + goal_bonus
             )
 
         # Terminal reward
         # self.reward[collision] -= 50. # collision
 
         # Terminate Conditions
-        reach_goal = distance.squeeze(-1) < 0.5
         below_bound = self.drone.pos[..., 2] < 0.2
         above_bound = self.drone.pos[..., 2] > 4.0
         self.terminated = below_bound | above_bound | collision
