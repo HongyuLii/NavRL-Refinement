@@ -20,8 +20,24 @@ from torchrl.envs.utils import ExplorationType
 FILE_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "cfg")
 @hydra.main(config_path=FILE_PATH, config_name="train", version_base=None)
 def main(cfg):
-    # Simulation App
-    sim_app = SimulationApp({"headless": cfg.headless, "anti_aliasing": 1})
+    # Set up environment variables for headless rendering
+    if cfg.headless:
+        # Don't set DISPLAY - let xvfb-run handle it
+        os.environ["__GL_SYNC_TO_VBLANK"] = "0"
+        os.environ["__GL_SYNC_DISPLAY_DEVICE"] = "none"
+        # Disable windowing to avoid X11 issues
+        os.environ["QT_QPA_PLATFORM"] = "offscreen"
+    
+    # Simulation App - minimal config for headless
+    sim_app = SimulationApp({
+        "headless": cfg.headless, 
+        "anti_aliasing": 0,  # Disable anti-aliasing for headless
+        "width": 1920,
+        "height": 1080,
+        "sync_loads": True,
+        "livesync": False,
+        "no_window": True  # Explicitly disable window
+    })
 
     # Use Wandb to monitor training
     if (cfg.wandb.run_id is None):

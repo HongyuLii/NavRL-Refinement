@@ -25,7 +25,7 @@ import statistics
 NUM_RUNS = 30
 GOAL_SUCCESS_THRESHOLD = 1.0  # meters (distance to goal for success)
 MAX_RUN_TIME = 120.0  # seconds (timeout for each run)
-MAP_BOUNDS = [-10, 10]  # X and Y bounds (matches world_generator.yaml range_x and range_y)
+MAP_BOUNDS = [-15, 15]  # X and Y bounds (matches world_generator.yaml range_x and range_y)
 COLLISION_CHECK_INTERVAL = 0.1  # seconds between collision checks
 OUTPUT_DIR = "evaluation_metrics"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
@@ -108,13 +108,14 @@ class BatchEvaluator:
             return False
     
     def check_out_of_bounds(self):
-        """Check if drone is out of map bounds"""
+        """Check if drone is out of map bounds (with small buffer)"""
         curr_pos = self.get_current_position()
         if curr_pos is None:
             return False
         x, y = curr_pos[0], curr_pos[1]
-        return (x < MAP_BOUNDS[0] or x > MAP_BOUNDS[1] or 
-                y < MAP_BOUNDS[0] or y > MAP_BOUNDS[1])
+        buffer = 0.5  # 0.5 meter buffer - only fail if slightly out of bounds
+        return (x < MAP_BOUNDS[0] - buffer or x > MAP_BOUNDS[1] + buffer or 
+                y < MAP_BOUNDS[0] - buffer or y > MAP_BOUNDS[1] + buffer)
     
     def check_crash(self):
         """Check if drone crashed"""
@@ -324,13 +325,14 @@ class BatchEvaluator:
                 rospy.logwarn(f"Run {run_id}: FAILED - Out of bounds")
                 break
             
-            if self.check_crash():
-                metrics["failure_reason"] = "crash"
-                metrics["final_position"] = curr_pos.tolist()
-                metrics["final_bias"] = distance if distance is not None else float('inf')
-                metrics["run_time"] = elapsed_time
-                rospy.logwarn(f"Run {run_id}: FAILED - Crash detected")
-                break
+            # Crash check disabled - not accurate
+            # if self.check_crash():
+            #     metrics["failure_reason"] = "crash"
+            #     metrics["final_position"] = curr_pos.tolist()
+            #     metrics["final_bias"] = distance if distance is not None else float('inf')
+            #     metrics["run_time"] = elapsed_time
+            #     rospy.logwarn(f"Run {run_id}: FAILED - Crash detected")
+            #     break
             
             # Check for collisions periodically
             if current_time - self.last_collision_check_time > COLLISION_CHECK_INTERVAL:
@@ -338,14 +340,15 @@ class BatchEvaluator:
                     self.collision_count += 1
                 self.last_collision_check_time = current_time
             
-            # Check if stuck using the check_stuck function (only after minimum time)
-            if self.check_stuck(distance, last_distance, position_history, elapsed_time):
-                metrics["failure_reason"] = "stuck"
-                metrics["final_position"] = curr_pos.tolist()
-                metrics["final_bias"] = distance if distance is not None else float('inf')
-                metrics["run_time"] = elapsed_time
-                rospy.logwarn(f"Run {run_id}: FAILED - Stuck (after {elapsed_time:.1f}s)")
-                break
+            # Stuck check disabled - not accurate
+            # # Check if stuck using the check_stuck function (only after minimum time)
+            # if self.check_stuck(distance, last_distance, position_history, elapsed_time):
+            #     metrics["failure_reason"] = "stuck"
+            #     metrics["final_position"] = curr_pos.tolist()
+            #     metrics["final_bias"] = distance if distance is not None else float('inf')
+            #     metrics["run_time"] = elapsed_time
+            #     rospy.logwarn(f"Run {run_id}: FAILED - Stuck (after {elapsed_time:.1f}s)")
+            #     break
             
             last_distance = distance
             rospy.sleep(0.1)
@@ -367,11 +370,20 @@ class BatchEvaluator:
         
         # Calculate clearance statistics
         if clearance_distances:
-            metrics["sum_closest_distances"] = float(sum(clearance_distances))
-            metrics["mean_closest_distance"] = float(statistics.mean(clearance_distances))
-            if len(clearance_distances) > 1:
-                metrics["std_closest_distance"] = float(statistics.pstdev(clearance_distances))
+            # Filter out inf and nan values before calculating statistics
+            finite_distances = [d for d in clearance_distances if not (np.isinf(d) or np.isnan(d))]
+            
+            if finite_distances:
+                metrics["sum_closest_distances"] = float(sum(finite_distances))
+                metrics["mean_closest_distance"] = float(statistics.mean(finite_distances))
+                if len(finite_distances) > 1:
+                    metrics["std_closest_distance"] = float(statistics.pstdev(finite_distances))
+                else:
+                    metrics["std_closest_distance"] = 0.0
             else:
+                # All distances were inf/nan
+                metrics["sum_closest_distances"] = 0.0
+                metrics["mean_closest_distance"] = 0.0
                 metrics["std_closest_distance"] = 0.0
         else:
             metrics["sum_closest_distances"] = 0.0

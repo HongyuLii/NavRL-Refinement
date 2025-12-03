@@ -255,7 +255,7 @@ The Isaac Sim training component of the NavRL framework is built upon [OmniDrone
 
 
 ##Additionally setup
-# Connect to VNCViewer:   vncserver :1
+# Connect to VNCViewer:   vncserver :1 -localhost no
 # export DISPLAY=:1
 # then launch
 # Some rizz issue (how to fix?)

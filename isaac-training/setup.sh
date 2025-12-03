@@ -27,13 +27,13 @@ ln -s ${ISAACSIM_PATH} _isaac_sim
 echo "Running orbit.sh setup..."
 ./orbit.sh --conda $ENV_NAME
 conda activate $ENV_NAME
-pip install numpy==1.26.4
-pip install "pydantic!=1.7,!=1.7.1,!=1.7.2,!=1.7.3,!=1.8,!=1.8.1,<2.0.0,>=1.6.2"
-pip install imageio-ffmpeg==0.4.9
-pip install moviepy==1.0.3
-pip install pyyaml
-pip install rospkg
-pip install matplotlib
+pip install --user numpy==1.26.4
+pip install --user "pydantic!=1.7,!=1.7.1,!=1.7.2,!=1.7.3,!=1.8,!=1.8.1,<2.0.0,>=1.6.2"
+pip install --user imageio-ffmpeg==0.4.9
+pip install --user moviepy==1.0.3
+pip install --user pyyaml
+pip install --user rospkg
+pip install --user matplotlib
 
 # Step 2: Install dependencies
 echo "Installing system dependencies..."
@@ -66,7 +66,7 @@ pip install -e .
 echo "Installing TensorDict dependencies..."
 pip uninstall -y tensordict
 pip uninstall -y tensordict
-pip install tomli  # If missing 'tomli'
+pip install --user tomli  # If missing 'tomli'
 cd ../tensordict
 python setup.py develop
 
