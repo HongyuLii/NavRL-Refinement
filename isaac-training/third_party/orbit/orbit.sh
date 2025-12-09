@@ -249,7 +249,13 @@ while [[ $# -gt 0 ]]; do
                 shift # past argument
             fi
             # install the rl-frameworks specified
+<<<<<<< HEAD
             ${python_exe} -m pip install --user -e ${ORBIT_PATH}/source/extensions/omni.isaac.orbit_tasks["${framework_name}"]
+=======
+            ${python_exe} -m pip install \
+                --no-build-isolation \
+                -e ${ORBIT_PATH}/source/extensions/omni.isaac.orbit_tasks["${framework_name}"]
+>>>>>>> zsc/training
             shift # past argument
             ;;
         -c|--conda)
