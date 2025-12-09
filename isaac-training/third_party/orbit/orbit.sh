@@ -82,7 +82,7 @@ install_orbit_extension() {
     if [ -f "$1/setup.py" ];
     then
         echo -e "\t module: $1"
-        ${python_exe} -m pip install --no-build-isolation --editable $1
+        ${python_exe} -m pip install --user --no-build-isolation --editable $1
     fi
 }
 
@@ -249,7 +249,7 @@ while [[ $# -gt 0 ]]; do
                 shift # past argument
             fi
             # install the rl-frameworks specified
-            ${python_exe} -m pip install -e ${ORBIT_PATH}/source/extensions/omni.isaac.orbit_tasks["${framework_name}"]
+            ${python_exe} -m pip install --user -e ${ORBIT_PATH}/source/extensions/omni.isaac.orbit_tasks["${framework_name}"]
             shift # past argument
             ;;
         -c|--conda)
@@ -278,7 +278,7 @@ while [[ $# -gt 0 ]]; do
             # check if pre-commit is installed
             if ! command -v pre-commit &>/dev/null; then
                 echo "[INFO] Installing pre-commit..."
-                pip install pre-commit
+                pip install --user pre-commit
             fi
             # always execute inside the Orbit directory
             echo "[INFO] Formatting the repository..."
@@ -342,7 +342,7 @@ while [[ $# -gt 0 ]]; do
             python_exe=$(extract_python_exe)
             # install pip packages
             cd ${ORBIT_PATH}/docs
-            ${python_exe} -m pip install -r requirements.txt > /dev/null
+            ${python_exe} -m pip install --user -r requirements.txt > /dev/null
             # build the documentation
             ${python_exe} -m sphinx -b html -d _build/doctrees . _build/html
             # open the documentation
