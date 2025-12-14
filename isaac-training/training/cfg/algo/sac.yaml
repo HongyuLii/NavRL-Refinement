@@ -13,12 +13,13 @@ critic:
   tau: 0.005
 
 temperature:
-  init_alpha: 0.5
+  init_alpha: 1.0
+  learning_rate: 1e-4
 
 # Training schedule
 training_frame_num: 32 # frames per collector batch (used in train.py)
 batch_size: 512
 replay_capacity: 200000
-warmup_steps: 10000
-updates_per_step: 0.1
+warmup_steps: 50000
+updates_per_step: 0.5
 policy_update_freq: 1

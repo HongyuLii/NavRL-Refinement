@@ -31,6 +31,20 @@ class NavigationEnv(IsaacEnv):
 
     def __init__(self, cfg):
         print("[Navigation Environment]: Initializing Env...")
+        
+        # Reward params
+        self.reward_config = {
+            # "reward_vel": 1.0,
+            # "reward_safety_static": 0.1,
+            # "reward_safety_dynamic": 0.1,
+            # "penalty_smooth": -0.5,
+            "penalty_height": -0.1,
+            "goal_bonus": 10.0,
+            "distance_reward": 1.0,
+            "progress_reward": 5.0,
+        }
+
+        
         # LiDAR params:
         self.lidar_range = cfg.sensor.lidar_range
         self.lidar_vfov = (
@@ -302,7 +316,7 @@ class NavigationEnv(IsaacEnv):
         sample_y_local = -self.cfg.env_dyn.local_range[1] + 2.0 * self.cfg.env_dyn.local_range[
             1
         ] * torch.rand(num_new_goal, 1, dtype=torch.float, device=self.cfg.device)
-        sample_z_local = -self.cfg.env_dyn.local_range[1] + 2.0 * self.cfg.env_dyn.local_range[
+        sample_z_local = -self.cfg.env_dyn.local_range[2] + 2.0 * self.cfg.env_dyn.local_range[
             2
         ] * torch.rand(num_new_goal, 1, dtype=torch.float, device=self.cfg.device)
         sample_goal_local = torch.cat([sample_x_local, sample_y_local, sample_z_local], dim=1)
@@ -434,10 +448,15 @@ class NavigationEnv(IsaacEnv):
                     "reach_goal": UnboundedContinuousTensorSpec(1),
                     "collision": UnboundedContinuousTensorSpec(1),
                     "truncated": UnboundedContinuousTensorSpec(1),
+                    "terminated": UnboundedContinuousTensorSpec(1),
+
+                    # auto-generate reward component fields
+                    **{
+                        key: UnboundedContinuousTensorSpec(1)
+                        for key in self.reward_config.keys()
+                    }
                 }
-            )
-            .expand(self.num_envs)
-            .to(self.device)
+            ).expand(self.num_envs).to(self.device)
         )
 
         info_spec = (
@@ -531,6 +550,10 @@ class NavigationEnv(IsaacEnv):
             pos[:, 0, 0] = (env_ids / self.num_envs - 0.5) * 32.0
             pos[:, 0, 1] = 24.0
             pos[:, 0, 2] = 2.0
+        
+        with torch.no_grad():
+            dist0 = (self.target_pos[env_ids] - pos).norm(dim=-1, keepdim=True)
+            self.prev_distance[env_ids] = dist0
 
         # Coordinate change: after reset, the drone's target direction should be changed
         self.target_dir[env_ids] = self.target_pos[env_ids] - pos
@@ -727,14 +750,20 @@ class NavigationEnv(IsaacEnv):
 
         # -----------------Reward Calculation-----------------
         # a. safety reward for static obstacles
-        reward_safety_static = torch.log(
-            (self.lidar_range - self.lidar_scan).clamp(min=1e-6, max=self.lidar_range)
-        ).mean(dim=(2, 3))
+        static_dist = (self.lidar_range - self.lidar_scan).clamp(
+            min=1e-3, max=self.lidar_range
+        )
+        static_frac = static_dist / self.lidar_range
+        reward_safety_static = torch.log1p(static_frac * (torch.e - 1.0)).mean(dim=(2, 3))
 
         # b. safety reward for dynamic obstacles
         if self.cfg.env_dyn.num_obstacles != 0:
-            reward_safety_dynamic = torch.log(
-                (closest_dyn_obs_distance_reward).clamp(min=1e-6, max=self.lidar_range)
+            dyn_dist = closest_dyn_obs_distance_reward.clamp(
+                min=1e-3, max=self.lidar_range
+            )
+            dyn_frac = dyn_dist / self.lidar_range
+            reward_safety_dynamic = torch.log1p(
+                dyn_frac * (torch.e - 1.0)
             ).mean(dim=-1, keepdim=True)
 
         # c. velocity reward for goal direction
@@ -759,54 +788,41 @@ class NavigationEnv(IsaacEnv):
         )  # 0.3 collision radius
         collision = static_collision | dynamic_collision
 
-        # Goal bonus
-        reach_goal = distance.squeeze(-1) < 0.5
-
-        reward_vel *= 2.0
-        reward_safety_static *= 1.0
-        reward_safety_dynamic *= 1.0
-        penalty_smooth *= -0.1
-        penalty_height *= -10.0
-        # distance_penalty = distance.squeeze(-1)
-        goal_bonus = reach_goal.float() * 10.0
-
-        current_distance = distance
-        # progress_reward = (self.prev_distance - current_distance).squeeze(-1) * 2.0
-        self.prev_distance = current_distance.detach().clone()
-
-        # Final reward calculation
-        if self.cfg.env_dyn.num_obstacles != 0:
-            self.reward = (
-                reward_vel
-                + reward_safety_static
-                + reward_safety_dynamic
-                + penalty_smooth
-                + penalty_height
-                + goal_bonus
-            )
-            # print(f"\nreward_vel: {reward_vel.mean():.6f}")
-            # print(f"reward_safety_static: {reward_safety_static.mean():.6f}")
-            # print(f"reward_safety_dynamic: {reward_safety_dynamic.mean():.6f}")
-            # print(f"penalty_smooth: {penalty_smooth.mean():.6f}")
-            # print(f"penalty_height: {penalty_height.mean():.6f}")
-            # print(f"progress_reward: {progress_reward.mean():.6f}")
-            # print(f"distance_penalty: {distance_penalty.mean():.6f}")
-            # print(f"goal_bonus: {goal_bonus.mean():.6f}\n")
-        else:
-            self.reward = (
-                reward_vel + reward_safety_static - penalty_smooth - penalty_height + goal_bonus
-            )
-
-        # Terminal reward
-        # self.reward[collision] -= 50. # collision
+        # Distance reward, normalize by max dist
+        distance_reward = -distance.squeeze(-1) / 40.0
 
         # Terminate Conditions
         below_bound = self.drone.pos[..., 2] < 0.2
         above_bound = self.drone.pos[..., 2] > 4.0
         self.terminated = below_bound | above_bound | collision
-        self.truncated = (self.progress_buf >= self.max_episode_length).unsqueeze(
-            -1
-        )  # progress buf is to track the step number
+        self.truncated = (self.progress_buf >= self.max_episode_length).unsqueeze(-1)
+
+        # Goal bonus
+        reach_goal = distance.squeeze(-1) < 0.5
+
+        current_distance = distance
+        progress_reward = (self.prev_distance - current_distance).squeeze(-1).clamp(-0.5, 0.5)
+        self.prev_distance = current_distance.detach().clone()
+
+        # Calculate rewards
+        reward_raw = {
+            "reward_vel": reward_vel,
+            "reward_safety_static": reward_safety_static,
+            "reward_safety_dynamic": reward_safety_dynamic if self.cfg.env_dyn.num_obstacles != 0 else torch.zeros_like(reward_vel),
+            "penalty_smooth": penalty_smooth,
+            "penalty_height": penalty_height,
+            "goal_bonus": reach_goal.float(), 
+            "progress_reward": progress_reward,
+            "distance_reward": distance_reward,
+        }
+        reward_registry = {
+            key: reward_raw[key] * weight
+            for key, weight in self.reward_config.items()
+        }
+        self.reward = sum(reward_registry.values())
+
+        # terminated penalty
+        self.reward[self.terminated] -= 10.0
 
         # update previous velocity for smoothness calculation in the next ieteration
         self.prev_drone_vel_w = self.drone.vel_w[..., :3].clone()
@@ -817,6 +833,11 @@ class NavigationEnv(IsaacEnv):
         self.stats["reach_goal"] = reach_goal.float()
         self.stats["collision"] = collision.float()
         self.stats["truncated"] = self.truncated.float()
+        self.stats["terminated"] = self.terminated.float()
+
+        # auto-log reward components
+        for key, val in reward_registry.items():
+            self.stats[key] = val.detach()
 
         return TensorDict(
             {
